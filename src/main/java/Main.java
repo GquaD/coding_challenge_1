@@ -1,13 +1,17 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) {
         File file = new File("text.txt");
         System.out.println(file.getAbsolutePath());
         MyReader myReader = new MyReader(file);
-        
+
         Cache cache = new Cache();
 
         String input = "";
@@ -43,7 +47,7 @@ public class Main {
                     cache = new Cache();
                 }
                 if (cache.getBytesCount() == 0) {
-                    cache.setBytesCount(myReader.getReader().lines().mapToInt(String::length).sum());
+                    cache.setBytesCount(file.length());
                 }
 
                 System.out.println(cache.getBytesCount() + " " + file.getName());
@@ -63,12 +67,13 @@ public class Main {
                 if (myReader.isModified()) {
                     cache = new Cache();
                 }
-                List<String> list = new ArrayList<>();
+                long count = 0;
                 if (cache.getWordsCount() == 0) {
-                    list = myReader.getReader().lines().toList();
-                    long count = 0;
+                    List<String> list = myReader.getReader().lines().toList();
                     for (String s : list) {
-                        count += s.split(" ").length;
+                        StringTokenizer st = new StringTokenizer(s);
+                        int tokensNum = st.countTokens();
+                        count += tokensNum;
                     }
                     cache.setWordsCount(count);
                 }
@@ -76,7 +81,24 @@ public class Main {
                 continue;
             }
 
+            if (split[1].equals("-m")) {
+                if (myReader.isModified()) {
+                    cache = new Cache();
+                }
+                long count = 0;
+                if (cache.getWordsCount() == 0) {
+                    List<String> list = myReader.getReader().lines().toList();
+                    for (String s : list) {
+                        count += s.length();
+                    }
+                    cache.setCharsCount(count);
+                }
+                System.out.println(cache.getCharsCount() + " " + file.getName());
+                continue;
+            }
             System.out.println("Not a correct ccwc command.");
         }
+
     }
 }
+

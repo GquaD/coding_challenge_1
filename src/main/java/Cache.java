@@ -3,6 +3,16 @@ public class Cache {
     private long wordsCount;
     private long linesCount;
 
+    private long charsCount;
+
+    public long getCharsCount() {
+        return charsCount;
+    }
+
+    public void setCharsCount(long charsCount) {
+        this.charsCount = charsCount;
+    }
+
     public long getBytesCount() {
         return bytesCount;
     }
