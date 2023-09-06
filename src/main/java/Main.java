@@ -15,6 +15,8 @@ public class Main {
         Cache cache = new Cache();
 
         String input = "";
+
+        Calculator calculator = new Calculator(myReader, cache, file);
         while (true) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -38,61 +40,37 @@ public class Main {
             String[] split = input.split(" ");
 
             if (split.length < 2) {
-                System.out.println("Not a correct ccwc command.");
+                if (split.length == 1) {
+                    calculator.findNumberOfLines();
+                    calculator.findNumberOfWords();
+                    calculator.findNumberOfBytes();
+                    System.out.println(cache.getLinesCount() + " " + cache.getWordsCount() + " " + cache.getBytesCount() + " " + file.getName());
+                } else {
+                    System.out.println("Not a correct ccwc command.");
+                }
                 continue;
             }
 
             if (split[1].equals("-c")) {
-                if (myReader.isModified()) {
-                    cache = new Cache();
-                }
-                if (cache.getBytesCount() == 0) {
-                    cache.setBytesCount(file.length());
-                }
-
+                calculator.findNumberOfBytes();
                 System.out.println(cache.getBytesCount() + " " + file.getName());
                 continue;
             }
 
             if (split[1].equals("-l")) {
-                if (myReader.isModified()) {
-                    cache = new Cache();
-                }
-                if (cache.getLinesCount() == 0) cache.setLinesCount(myReader.getReader().lines().count());
+                calculator.findNumberOfLines();
                 System.out.println(cache.getLinesCount() + " " + file.getName());
                 continue;
             }
 
             if (split[1].equals("-w")) {
-                if (myReader.isModified()) {
-                    cache = new Cache();
-                }
-                long count = 0;
-                if (cache.getWordsCount() == 0) {
-                    List<String> list = myReader.getReader().lines().toList();
-                    for (String s : list) {
-                        StringTokenizer st = new StringTokenizer(s);
-                        int tokensNum = st.countTokens();
-                        count += tokensNum;
-                    }
-                    cache.setWordsCount(count);
-                }
+                calculator.findNumberOfWords();
                 System.out.println(cache.getWordsCount() + " " + file.getName());
                 continue;
             }
 
             if (split[1].equals("-m")) {
-                if (myReader.isModified()) {
-                    cache = new Cache();
-                }
-                long count = 0;
-                if (cache.getWordsCount() == 0) {
-                    List<String> list = myReader.getReader().lines().toList();
-                    for (String s : list) {
-                        count += s.length();
-                    }
-                    cache.setCharsCount(count);
-                }
+                calculator.findNumberOfCharacters();
                 System.out.println(cache.getCharsCount() + " " + file.getName());
                 continue;
             }
