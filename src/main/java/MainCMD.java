@@ -19,32 +19,30 @@ public class MainCMD {
         if (input.equals("exit")) {
             System.out.println("Exited.");
             System.exit(1);
-        } else if (!input.startsWith("ccwc")) {
+        }/* else if (!input.startsWith("ccwc")) {
             System.out.println("Not a correct ccwc command.");
             System.exit(1);
-        }
+        }*/
 
         String[] split = input.split(" ");
 
-        if (split.length < 2) {
-            if (split.length == 1) {
-                calculator.findNumberOfLines();
-                calculator.findNumberOfWords();
-                calculator.findNumberOfBytes();
-                System.out.println(cache.getLinesCount() + " " + cache.getWordsCount() + " " + cache.getBytesCount() + " " + file.getName());
-            } else {
-                System.out.println("Not a correct ccwc command.");
-            }
-        } else if (split[1].equals("-c")) {
+
+        if (split.length == 0) {
+            calculator.findNumberOfLines();
+            calculator.findNumberOfWords();
+            calculator.findNumberOfBytes();
+            System.out.println(cache.getLinesCount() + " " + cache.getWordsCount() + " " + cache.getBytesCount() + " " + file.getName());
+
+        } else if (split[0].equals("-c")) {
             calculator.findNumberOfBytes();
             System.out.println(cache.getBytesCount() + " " + file.getName());
-        } else if (split[1].equals("-l")) {
+        } else if (split[0].equals("-l")) {
             calculator.findNumberOfLines();
             System.out.println(cache.getLinesCount() + " " + file.getName());
-        } else if (split[1].equals("-w")) {
+        } else if (split[0].equals("-w")) {
             calculator.findNumberOfWords();
             System.out.println(cache.getWordsCount() + " " + file.getName());
-        } else if (split[1].equals("-m")) {
+        } else if (split[0].equals("-m")) {
             calculator.findNumberOfCharacters();
             System.out.println(cache.getCharsCount() + " " + file.getName());
         } else System.out.println("Not a correct ccwc command.");
