@@ -3,7 +3,11 @@ import java.io.File;
 public class MainCMD {
     //need to place text.txt and runMain.bat files into classes folder
     public static void main(String[] args) {
-        File file = new File("text.txt");
+        if (args.length < 2) {
+            System.out.println("Not a correct ccwc command: No file address.");
+            System.exit(1);
+        }
+        File file = new File(args[1]);
         //System.out.println(file.getAbsolutePath());
         MyReader myReader = new MyReader(file);
 
